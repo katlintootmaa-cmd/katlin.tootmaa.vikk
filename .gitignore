@@ -1,0 +1,26 @@
+# Python environments
+.venv/
+venv/
+env/
+
+# Local settings and secrets
+.env
+.env.*
+!.env.example
+
+# Python generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Personal images
+Screenshot 2026-10-07 144352.png
+**/Screenshot 2026-10-07 144352.png
+portree.png
+**/portree.png
