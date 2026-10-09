@@ -1,6 +1,6 @@
-# Kätlin Tootmaa - minu tutvustus
+# Sissejuhatus programmeerimisse
 
-See projekt on lihtne HTML-leht, mis tutvustab mind koolitöö raames.
+See kaust koondab aine "Sissejuhatus programmeerimisse" ülesanded ja harjutused.
 
 ## Veebileht
 
@@ -11,18 +11,15 @@ GitHub Pages'is majutatud versioon:
 
 [https://github.com/katlintootmaa-cmd/katlin.tootmaa.vikk](https://github.com/katlintootmaa-cmd/katlin.tootmaa.vikk)
 
-## Lehel on olemas
+## Ülesanded
 
-- minu nimi;
-- lühike tutvustus;
-- illustratsioon;
-- minu hobid ja huvid;
-- lingid portfooliole, GitHubile ja LinkedInile.
+- [Tutvustusleht](tutvustusleht/) - lihtne HTML-leht, mis tutvustab mind koolitöö raames.
 
 ## Kasutatud failid
 
-- `index.html` - avaleht
-- `programmeerimine.svg` - illustratsioon
+- `index.html` - aine avaleht
+- `tutvustusleht/index.html` - tutvustuslehe ülesanne
+- `tutvustusleht/programmeerimine.svg` - tutvustuslehe illustratsioon
 
 ## Autor
 

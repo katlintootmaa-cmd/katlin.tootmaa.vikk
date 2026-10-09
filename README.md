@@ -6,8 +6,9 @@ Siia hakkan koguma õppetöö käigus valmivaid harjutusi, veebilehti, programme
 
 ## Projektid
 
-- [Sissejuhatus programmeerimisse](Sissejuhatus%20programmeerimisse/) - lihtne HTML-leht, mis tutvustab mind.
+- [Sissejuhatus programmeerimisse](Sissejuhatus%20programmeerimisse/) - selle aine ülesanded ja harjutused.
   - Veebis: [https://katlintootmaa-cmd.github.io/katlin.tootmaa.vikk/Sissejuhatus%20programmeerimisse/](https://katlintootmaa-cmd.github.io/katlin.tootmaa.vikk/Sissejuhatus%20programmeerimisse/)
+  - Esimene ülesanne: [tutvustusleht](Sissejuhatus%20programmeerimisse/tutvustusleht/)
 
 ## GitHub Pages
 
