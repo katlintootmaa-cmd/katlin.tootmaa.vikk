@@ -1,97 +1,86 @@
-import { readFile, writeFile } from "node:fs/promises";
+﻿import { createInterface } from "node:readline/promises";
 
-const tulemusteFail = new URL("./edetabel.json", import.meta.url);
-let edetabel = [];
+const scoresFile = Bun.file(new URL("./edetabel.json", import.meta.url));
+let scores = [];
+if (await scoresFile.exists()) {
+  const data = await scoresFile.json();
+  scores = data.tulemused;
+}
+
+const rl = createInterface({ input: process.stdin, output: process.stdout });
 
 try {
-  const andmed = JSON.parse(await readFile(tulemusteFail, "utf8"));
-  const vanaVorming = Array.isArray(andmed);
-  const tulemused = vanaVorming ? andmed : andmed?.versioon === 2 ? andmed.tulemused : null;
-  if (!Array.isArray(tulemused) || !tulemused.every((rida) =>
-    typeof rida?.nimi === "string" && Number.isInteger(rida.skoor)
-  )) {
-    throw new Error("Vigane edetabeli vorming.");
+  console.log("🎮 TERE TULEMAST ARVAMISMÄNGU!");
+  let name = "";
+  while (!name) {
+    name = (await rl.question("Mis on sinu nimi? ")).trim();
   }
-  // Teisenda vanad pakkumiste arvud või miinuspunktid 10 punkti skaalale.
-  edetabel = tulemused.map((rida) => ({
-    nimi: rida.nimi,
-    skoor: vanaVorming ? 10 + (rida.skoor > 0 ? 1 - rida.skoor : rida.skoor) : rida.skoor,
-  }));
-} catch (viga) {
-  if (viga.code !== "ENOENT") {
-    console.error("Edetabeli lugemine ebaõnnestus. Faili ei kirjutata üle.");
-    process.exit(1);
-  }
-}
 
-console.log("🎮 TERE TULEMAST ARVAMISMÄNGU!");
-let nimi = "";
-while (!nimi) {
-  const sisend = prompt("Mis on mängija nimi?");
-  if (sisend === null) process.exit(0);
-  nimi = sisend.trim();
-  if (!nimi) console.log("Palun sisesta oma nimi.");
-}
+  let score = 0;
+  let playAgain = true;
+  console.log(`Tere, ${name}! 😎`);
 
-console.log(`Tere, ${nimi}! 😎`);
-console.log("Iga voor algab 10 punktiga. Vale pakkumine võtab 1 punkti maha.");
-let koguskoor = 0;
+  while (playAgain) {
+    const secretNumber = Math.floor(Math.random() * 10) + 1;
+    let roundPoints = 10;
+    console.log("\nArva ära number 1 kuni 10!");
+    console.log("Alustad 10 punktiga. Vale vastus võtab 1 punkti maha. Väljumiseks q.");
 
-mang: while (true) {
-  const salajaneNumber = Math.floor(Math.random() * 10) + 1;
-  let skoor = 10;
-  console.log("\nArva ära number 1 kuni 10! (Väljumiseks q.)");
+    while (true) {
+      const input = (await rl.question("Sisesta number: ")).trim();
+      if (input.toLowerCase() === "q") {
+        playAgain = false;
+        break;
+      }
 
-  while (true) {
-    const sisend = prompt("Sisesta number:");
-    if (sisend === null || sisend.trim().toLowerCase() === "q") break mang;
+      const guess = Number(input);
+      if (input === "" || !Number.isInteger(guess) || guess < 1 || guess > 10) {
+        console.log("Palun sisesta täisarv 1 kuni 10.");
+        continue;
+      }
 
-    const pakkumine = Number(sisend);
-    if (sisend.trim() === "" || !Number.isInteger(pakkumine) || pakkumine < 1 || pakkumine > 10) {
-      console.log("Sisesta täisarv 1 kuni 10.");
-      continue;
-    }
+      if (guess === secretNumber) {
+        score += roundPoints;
+        console.log(`🎉 ÕIGE! Said ${roundPoints} punkti!`);
+        console.log(`🏆 Sinu koguskoor: ${score}`);
 
-    if (pakkumine !== salajaneNumber) {
-      skoor--;
+        const player = scores.find((row) => row.nimi.toLowerCase() === name.toLowerCase());
+        if (player) {
+          player.skoor = Math.max(player.skoor, score);
+        } else {
+          scores.push({ nimi: name, skoor: score });
+        }
+        await Bun.write(scoresFile, JSON.stringify({ versioon: 2, tulemused: scores }, null, 2));
+        break;
+      }
+
+      roundPoints--;
       console.log("❌ Vale vastus!");
-      console.log(pakkumine < salajaneNumber
-        ? "⬆️ Salajane number on SUUREM!"
-        : "⬇️ Salajane number on VÄIKSEM!");
-      continue;
+      if (guess < secretNumber) {
+        console.log("⬆️ Salajane number on SUUREM!");
+      } else {
+        console.log("⬇️ Salajane number on VÄIKSEM!");
+      }
     }
 
-    koguskoor += skoor;
-    console.log(`🎉 ÕIGE! Said ${skoor} punkti!`);
-    console.log(`🏆 Sinu koguskoor: ${koguskoor}`);
-
-    const varasem = edetabel.find((rida) => rida.nimi.toLowerCase() === nimi.toLowerCase());
-    if (varasem) varasem.skoor = Math.max(varasem.skoor, koguskoor);
-    else edetabel.push({ nimi, skoor: koguskoor });
-
-    try {
-      await writeFile(tulemusteFail, JSON.stringify({ versioon: 2, tulemused: edetabel }, null, 2) + "\n", "utf8");
-    } catch {
-      console.error("Tulemuse salvestamine ebaõnnestus. Seekordne tulemus ei pruugi säilida.");
+    if (playAgain) {
+      let answer = "";
+      while (answer !== "jah" && answer !== "ei" && answer !== "q") {
+        answer = (await rl.question("Kas tahad uuesti mängida? (jah/ei): ")).trim().toLowerCase();
+      }
+      playAgain = answer === "jah";
     }
-    break;
   }
 
-  while (true) {
-    const vastus = prompt("Kas tahad uuesti mängida? (jah/ei):")?.trim().toLowerCase();
-    if (vastus === undefined || vastus === "ei" || vastus === "q") break mang;
-    if (vastus === "jah") continue mang;
-    console.log("Palun vasta jah või ei.");
-  }
+  console.log(`👋 Aitäh mängimast, ${name}!`);
+  console.log(`Lõplik skoor: ${score} punkti!`);
+  console.log("\n🏆 EDETABEL — iga mängija parim koguskoor");
+  scores.sort((a, b) => b.skoor - a.skoor);
+  console.table(scores.map((player, index) => ({
+    Koht: index + 1,
+    Mängija: player.nimi,
+    Skoor: player.skoor,
+  })));
+} finally {
+  rl.close();
 }
-
-console.log(`👋 Aitäh mängimast, ${nimi}!`);
-console.log(`Lõplik skoor: ${koguskoor} punkti!`);
-edetabel.sort((a, b) => b.skoor - a.skoor || a.nimi.localeCompare(b.nimi, "et"));
-console.log("\n🏆 EDETABEL — iga mängija parim koguskoor");
-if (edetabel.length === 0) console.log("Tulemusi veel pole.");
-else console.table(edetabel.map((rida, indeks) => ({
-  Koht: indeks + 1,
-  Mängija: rida.nimi,
-  Skoor: rida.skoor,
-})));
