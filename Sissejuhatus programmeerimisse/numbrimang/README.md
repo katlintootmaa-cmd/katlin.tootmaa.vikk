@@ -1,6 +1,6 @@
 # Numbriarvamismäng
 
-Buniga terminalis töötav mäng. Arvuti valib igas voorus juhusliku numbri vahemikus 1–10.
+Buniga terminalis töötav JavaScripti mäng. Arvuti valib igas voorus juhusliku numbri vahemikus 1–10.
 Paku numbreid, kuni leiad õige. Iga vale pakkumise järel ütleb mäng, kas õige
 number on suurem või väiksem. Väljumiseks kirjuta `q`.
 
@@ -17,5 +17,5 @@ Pooleli jäetud vooru punkte ei lisata. Varasemate lõpetatud voorude tulemused 
 Käivita hoidla juurkaustast PowerShellis:
 
 ```powershell
-bun run "Sissejuhatus programmeerimisse/numbrimang/index.ts"
+bun run "Sissejuhatus programmeerimisse/numbrimang/index.js"
 ```

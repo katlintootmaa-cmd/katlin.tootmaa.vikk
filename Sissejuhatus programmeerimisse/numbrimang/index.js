@@ -1,8 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 
-type Tulemus = { nimi: string; skoor: number };
 const tulemusteFail = new URL("./edetabel.json", import.meta.url);
-let edetabel: Tulemus[] = [];
+let edetabel = [];
 
 try {
   const andmed = JSON.parse(await readFile(tulemusteFail, "utf8"));
@@ -14,12 +13,12 @@ try {
     throw new Error("Vigane edetabeli vorming.");
   }
   // Teisenda vanad pakkumiste arvud või miinuspunktid 10 punkti skaalale.
-  edetabel = tulemused.map((rida: Tulemus) => ({
+  edetabel = tulemused.map((rida) => ({
     nimi: rida.nimi,
     skoor: vanaVorming ? 10 + (rida.skoor > 0 ? 1 - rida.skoor : rida.skoor) : rida.skoor,
   }));
 } catch (viga) {
-  if ((viga as { code?: string }).code !== "ENOENT") {
+  if (viga.code !== "ENOENT") {
     console.error("Edetabeli lugemine ebaõnnestus. Faili ei kirjutata üle.");
     process.exit(1);
   }
