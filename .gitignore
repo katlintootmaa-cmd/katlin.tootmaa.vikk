@@ -33,3 +33,12 @@ portree.png
 
 # Programming image
 programmeerimine.svg
+
+# Local folders and untracked artifacts
+/Märgendikeeled/
+/The Last War guide/
+/debug.log
+/objektigraafik-publication-20261112/
+/objektigraafik.tar.gz
+/objektigraafik/
+/xh/
