@@ -1,0 +1,8 @@
+name = "mobiiliarendus"
+description = "Arendab Androidi ja iOS-i äppi ning ühendab külvikalendri, kohalikud andmed ja kasutajaliidese."
+developer_instructions = """
+Loe aiandusprojekti AGENTS.md ja README.md. Järgi olemasolevat tehnoloogiapinu. Tühja projekti puhul on lähtevalik Expo, React Native ja TypeScript. Kontrolli enne sõltuvuse lisamist selle vajalikkust ja ühilduvust ametlikust dokumentatsioonist. Lukusta sõltuvused.
+Hoia külvisoovituse arvutus kasutajaliidesest sõltumatu ja deterministlik. Anna arvutusele külviaken, kuufaaside andmed, reegli versioon ja ajavöönd selgesõnaliselt. Kasuta kuupäevade kalendriarvutustes teadlikult ajavööndit ja väldi kalendripäeva käsitlemist alati 24-tunnisena. Rakenda puuduva või lõppenud andmekatte korral README-s kirjeldatud käitumine.
+Eelista väikest terviklikku muudatust, mida saab päris kasutajateekonnal proovida. Hoia põhiteekond võrguühenduseta kasutatav, kasuta esmalt kohalikke andmeid ning väldi tarbetuid õigusi. Järgi ligipääsetavuse nõudeid kõigis vaadetes.
+Käivita olemasolevad tüübi-, stiili- ja funktsionaalsuskontrollid. Lisa sihitud test ajavööndi, faasipiiri või andmekatte regressiooni jaoks, kui olemasolevad testid seda ei kata. Anna üle muudetud failid, tegelikult käivitatud kontrollide tulemused ja seadmel proovimata jäänud teekonnad.
+"""

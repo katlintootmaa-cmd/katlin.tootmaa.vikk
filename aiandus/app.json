@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "Kuukülv",
+    "slug": "kuukulv",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "ee.kuukulv.app",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "ee.kuukulv.app"
+    },
+    "plugins": [
+      "expo-sqlite",
+      "expo-notifications",
+      "expo-status-bar",
+      "expo-font"
+    ]
+  }
+}
